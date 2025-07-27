@@ -6,6 +6,7 @@ A simple JWT-based authentication package for Go using [Gin](https://github.com/
 
 * Generate JWT tokens with email and user ID claims, valid for 2 hours
 * Verify and parse JWT tokens securely
+* Hash and verify passwords using bcrypt with a strong cost factor
 * Gin middleware to authenticate HTTP requests by validating JWT tokens
 * Clear error handling with JSON responses
 
@@ -45,6 +46,17 @@ if err != nil {
 fmt.Println("User ID from token:", userID)
 ```
 
+### Password Hashing
+
+```go
+hashedPassword, err := authjwt.HashPassword("plaintext-password")
+if err != nil {
+    // handle error
+}
+
+isValid := authjwt.CheckPasswordHash("plaintext-password", hashedPassword)
+fmt.Println("Password match:", isValid)
+```
 
 ### Gin Middleware Authentication
 
@@ -86,6 +98,7 @@ Errors are returned as JSON with the structure:
 
   * [github.com/gin-gonic/gin](https://github.com/gin-gonic/gin)
   * [github.com/golang-jwt/jwt/v5](https://github.com/golang-jwt/jwt)
+  * [golang.org/x/crypto/bcrypt](https://pkg.go.dev/golang.org/x/crypto/bcrypt)
 
 ## 📜 License
 
