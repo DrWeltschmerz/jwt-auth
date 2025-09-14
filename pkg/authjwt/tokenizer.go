@@ -31,7 +31,7 @@ func (j *JWTTokenizer) GenerateToken(email, userID string) (string, error) {
 	return token.SignedString([]byte(j.secret))
 }
 
-func (j *JWTTokenizer) VerifyToken(token string) (string, error) {
+func (j *JWTTokenizer) ValidateToken(token string) (string, error) {
 	parsedToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("unexpected signing method")
@@ -62,5 +62,5 @@ func (j *JWTTokenizer) ExtractUserIDFromHeader(h http.Header) (string, error) {
 	if auth == "" {
 		return "", errors.New("no token provided")
 	}
-	return j.VerifyToken(auth)
+	return j.ValidateToken(auth)
 }
